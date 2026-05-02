@@ -1,5 +1,12 @@
 # @wallet-standard/react
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [61ce8fe]
+    - @wallet-standard/react-core@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
