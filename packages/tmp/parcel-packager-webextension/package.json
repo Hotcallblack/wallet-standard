@@ -7,7 +7,7 @@
     "source": "src/WebExtensionPackager.js",
     "main": "lib/WebExtensionPackager.js",
     "engines": {
-        "node": "22",
+        "node": ">=22",
         "parcel": "^2.14.4"
     },
     "scripts": {
