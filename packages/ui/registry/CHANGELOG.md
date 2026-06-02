@@ -1,5 +1,15 @@
 # @wallet-standard/ui-registry
 
+## 1.1.1
+
+### Patch Changes
+
+- e79cca1: Relax Node engine constraints from exact Node 22 to Node 22 or newer.
+- Updated dependencies [e79cca1]
+    - @wallet-standard/base@1.1.1
+    - @wallet-standard/errors@0.1.2
+    - @wallet-standard/ui-core@1.0.1
+
 ## 1.1.0
 
 ### Minor Changes

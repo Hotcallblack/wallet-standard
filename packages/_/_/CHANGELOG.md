@@ -1,5 +1,13 @@
 # wallet-standard
 
+## 1.1.2
+
+### Patch Changes
+
+- e79cca1: Relax Node engine constraints from exact Node 22 to Node 22 or newer.
+- Updated dependencies [e79cca1]
+    - @wallet-standard/core@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

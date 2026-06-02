@@ -1,5 +1,13 @@
 # @wallet-standard/react
 
+## 1.0.3
+
+### Patch Changes
+
+- e79cca1: Relax Node engine constraints from exact Node 22 to Node 22 or newer.
+- Updated dependencies [e79cca1]
+    - @wallet-standard/react-core@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes
