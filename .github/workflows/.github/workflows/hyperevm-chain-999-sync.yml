@@ -1,0 +1,91 @@
+name: HyperEVM Chain 999 Sync
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  sync-chain-999:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          echo "📦 Installing dependencies..."
+          npm install
+      
+      - name: Create .env file
+        env:
+          HYPEREVM_MAINNET_RPC: ${{ secrets.HYPEREVM_MAINNET_RPC }}
+          HYPEREVM_CHAIN_ID: ${{ secrets.HYPEREVM_CHAIN_ID }}
+          INFURA_ADDRESS: ${{ secrets.INFURA_ADDRESS }}
+          INFURA_API_SECRET: ${{ secrets.INFURA_API_SECRET }}
+          INFURA_API_URL_RPC_ETH: ${{ secrets.INFURA_API_URL_RPC_ETH }}
+          SYNC_INTERVAL: ${{ secrets.SYNC_INTERVAL }}
+          START_BLOCK: ${{ secrets.START_BLOCK }}
+        run: |
+          echo "🔐 Setting up environment variables..."
+          cat > .env << EOF
+          HYPEREVM_MAINNET_RPC=$HYPEREVM_MAINNET_RPC
+          HYPEREVM_CHAIN_ID=$HYPEREVM_CHAIN_ID
+          INFURA_ADDRESS=$INFURA_ADDRESS
+          INFURA_API_SECRET=$INFURA_API_SECRET
+          INFURA_API_URL_RPC_ETH=$INFURA_API_URL_RPC_ETH
+          SYNC_INTERVAL=$SYNC_INTERVAL
+          START_BLOCK=$START_BLOCK
+          EOF
+      
+      - name: Run HyperEVM Chain 999 Sync
+        env:
+          HYPEREVM_MAINNET_RPC: ${{ secrets.HYPEREVM_MAINNET_RPC }}
+          HYPEREVM_CHAIN_ID: ${{ secrets.HYPEREVM_CHAIN_ID }}
+          INFURA_ADDRESS: ${{ secrets.INFURA_ADDRESS }}
+          INFURA_API_SECRET: ${{ secrets.INFURA_API_SECRET }}
+          INFURA_API_URL_RPC_ETH: ${{ secrets.INFURA_API_URL_RPC_ETH }}
+          SYNC_INTERVAL: ${{ secrets.SYNC_INTERVAL }}
+          START_BLOCK: ${{ secrets.START_BLOCK }}
+        run: |
+          echo "🚀 Starting HyperEVM Chain 999 Sync..."
+          timeout 600 node hyperevm-chain-999-sync.js || true
+      
+      - name: Upload sync data
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: hyperevm-chain-999-data
+          path: data/hyperevm-chain-999/
+          retention-days: 30
+      
+      - name: Commit and push data
+        if: success()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          if [ -d "data/hyperevm-chain-999" ]; then
+            git add data/hyperevm-chain-999/
+            git commit -m "chore: Update HyperEVM Chain 999 sync data [skip ci]" || true
+            git push
+          fi
+      
+      - name: Report status
+        if: always()
+        run: |
+          echo "✅ HyperEVM Chain 999 Sync Job Completed"
+          echo "📊 Workflow Status: ${{ job.status }}"
+          echo "⏰ Timestamp: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
